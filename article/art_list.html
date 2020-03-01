@@ -70,7 +70,11 @@
       <td>{{$value.state}}</td>
       <td>
         <button type="button" class="layui-btn layui-btn-xs">编辑</button>
-        <button type="button" class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+        <!-- 为当前的按钮，绑定 data-index 自定义属性 -->
+        <!-- 删除的时候，根据索引来判断，当前这一页的数据是否被删完了 -->
+        <!-- 如果删完了，则让页码值自动 -1 之后， -->
+        <!-- 再调用 initTable 方法 -->
+        <button type="button" class="layui-btn layui-btn-xs layui-btn-danger btnDelete" data-id="{{$value.Id}}" data-index="{{$index}}">删除</button>
       </td>
     </tr>
     {{/each}}

@@ -128,4 +128,33 @@ $(function () {
       }
     })
   }
+
+  // 删除文章
+  $('body').on('click', '.btnDelete', function () {
+    var id = $(this).attr('data-id')
+    // 获取到当前要删除的这条数据的索引值
+    var dataIndex = parseInt($(this).attr('data-index'))
+    layer.confirm('确定删除?', { icon: 3, title: '提示' }, function (index) {
+      $.ajax({
+        type: 'GET',
+        url: '/my/article/delete/' + id,
+        success: function (res) {
+          if (res.status !== 0) {
+            return layer.msg('删除文章失败！')
+          }
+          layer.msg('删除文章成功！')
+          // 判断索引值是否等于0
+          if (dataIndex === 0) {
+            // 如果索引值等于0，则让页码值 -1
+            // 如果页码值 -1 之后等于0，则让页码值等于 1
+            q.pagenum = (q.pagenum - 1 === 0 ? 1 : q.pagenum - 1)
+          }
+          // 重新获取表格数据
+          initTable()
+        }
+      })
+
+      layer.close(index)
+    })
+  })
 })
